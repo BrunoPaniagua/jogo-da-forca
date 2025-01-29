@@ -1,11 +1,10 @@
 package programa;
 
-import java.util.Scanner;
-
 import Entidades.Partida;
+import Entidades.Telas;
 
 public class Programa {
 	public static void main(String[] args) {
-		Partida p1 = new Partida();
+		Telas.telaInicio();
 	}
 }
