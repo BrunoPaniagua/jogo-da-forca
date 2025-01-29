@@ -1,11 +1,16 @@
 package Entidades;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 import excecoes.LetraInviavel;
 import excecoes.Perder;
+import excecoes.SemPalavra;
 
 public class Partida {
 
@@ -17,21 +22,57 @@ public class Partida {
 	private int vidas;
 	private boolean vencer;
 
-	public Partida(String palavra) {
+	public Partida() {
 
-		this.palavra = palavra.toLowerCase();
-		letrasTotal = new ArrayList<Character>();
-		letrasCertas = new ArrayList<Character>();
-		letrasErradas = new ArrayList<Character>();
-		vidas = 5;
-		vencer = false;
-		leitor = new Scanner(System.in);
+		try {
+			this.palavra = definirPalavra();
+			letrasTotal = new ArrayList<Character>();
+			letrasCertas = new ArrayList<Character>();
+			letrasErradas = new ArrayList<Character>();
+			vidas = 5;
+			vencer = false;
+			leitor = new Scanner(System.in);
 
-		arrumarListas();
-		start();
+			arrumarListas();
+			start();
+		} catch (SemPalavra e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	// -------------------------------------------
+
+	public String definirPalavra() throws SemPalavra {
+
+		String path = "C:\\Users\\Bruno\\git\\repositoryForca\\JogoDaForca\\Palavras.txt";
+		List<String> listaPalavras = new ArrayList<String>();
+
+		try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+			String line = br.readLine();
+			while (line != null) {
+				line.trim();
+				if (!line.isEmpty() && line.matches("[A-Za-zÀ-ÖØ-öø-ÿ ]+")) {
+					listaPalavras.add(line);
+				}
+				line = br.readLine();
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		if (listaPalavras.isEmpty()) {
+			throw new SemPalavra();
+		}
+
+		Random random = new Random();
+		String palavraEscolhida = listaPalavras.get(random.nextInt(listaPalavras.size()));
+
+		return removerAcentos(palavraEscolhida.toLowerCase());
+	}
+
+	private String removerAcentos(String palavra) {
+		return Normalizer.normalize(palavra, Normalizer.Form.NFD).replaceAll("\\p{M}", "");
+	}
 
 	public void arrumarListas() {
 		for (Character c : palavra.toLowerCase().toCharArray()) {
@@ -62,7 +103,7 @@ public class Partida {
 		} catch (Perder e) {
 			System.out.println(e.getMessage());
 			leitor.close();
-		} 
+		}
 	}
 
 	public void escreverNovaLetra() throws Perder, LetraInviavel {
