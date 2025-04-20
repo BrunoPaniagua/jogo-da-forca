@@ -44,7 +44,7 @@ public class Partida {
 
 	public String definirPalavra() throws SemPalavra {
 
-		String path = "C:\\Users\\Bruno\\git\\repositoryForca\\JogoDaForca\\Palavras.txt";
+		String path = "Palavras.txt";
 		List<String> listaPalavras = new ArrayList<String>();
 
 		try (BufferedReader br = new BufferedReader(new FileReader(path))) {

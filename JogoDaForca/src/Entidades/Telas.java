@@ -113,7 +113,7 @@ public class Telas {
 	}
 
 	public static void telaAdicionarPalavra() {
-		String path = "C:\\Users\\Bruno\\git\\repositoryForca\\JogoDaForca\\Palavras.txt";
+		String path = "Palavras.txt";
 		File file = new File(path);
 
 		System.out.println("=== Regras para Adicionar palavra===");
@@ -140,7 +140,7 @@ public class Telas {
 
 	public static void telaRemoverPalavra() {
 
-		String path = "C:\\Users\\Bruno\\git\\repositoryForca\\JogoDaForca\\Palavras.txt";
+		String path = "Palavras.txt";
 		File file = new File(path);
 		LinkedList<String> listaPalavras = new LinkedList<>();
 
